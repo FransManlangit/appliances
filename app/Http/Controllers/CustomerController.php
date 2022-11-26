@@ -3,9 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+// use Illuminate\Http\Request;
+// use View;
+// use Storage;
+// use DB;
+// use Log;
+
 use Illuminate\Http\Request;
+use App\Models\User;
 use View;
 use Storage;
+use File;
+use DB;
+use Log;
+
 
 class CustomerController extends Controller
 {
@@ -14,21 +25,16 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        if ($request->ajax()){
-            $customers = Customer::orderBy('customer_id','DESC')->get();
-            return response()->json($customers);
-         }
+        return View::make('customer.index');
     }
-    
 
-    public function getCustomer(Request $request){
-        if ($request->ajax()){
+    public function getCustomerAll(Request $request){
+        // if ($request->ajax()){
             $customers = Customer::orderBy('customer_id','DESC')->get();
             return response()->json($customers);
          }
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -47,11 +53,55 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $customer = Customer::create($request->all());
-        return response()->json($customer);
+     {
+    //     $customer = Customer::create($request->all());
+    //     return response()->json($customer);
+
+
+
+
+    $validator = \Validator::make($request->all(), [
+        'email' => 'email| required| unique:users',
+        'password' => 'required| min:3'
+    ]);
+    
+    if($validator->fails()){
+        return response()->json(['errors'=>$validator->errors()->all()]);
     }
 
+    $user = new User([
+        'name' => $request->input('fname').' '.$request->lname,
+        'email' => $request->input('email'),
+        'password' => bcrypt($request->input('password'))
+    ]);
+    $user->role = 'customer';
+    $user->save();
+
+    if($file = $request->hasFile('uploads')) {
+    $customer = new customer;
+    $customer->user_id = $user->id;
+        $customer->fname = $request->fname;
+        $customer->lname = $request->lname;
+        $customer->addressline = $request->addressline; 
+        $customer->town = $request->town;
+        $customer->zipcode = $request->zipcode;
+        $customer->phone = $request->phone;
+        // $customer->user_id = $request->user_id;
+        
+        
+     
+
+        $files = $request->file('uploads');
+        $customer->imagePath = 'images/'.$files->getClientOriginalName();
+        Storage::put('/public/images/'.$files->getClientOriginalName(),file_get_contents($files));
+        $customer->save();
+        return response()->json(["success" => "customer created successfully.","customer" => $customer ,"status" => 200]);
+    
+    }
+
+
+    
+}
     /**
      * Display the specified resource.
      *
@@ -60,9 +110,8 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        // if ($request->ajax()){
-            $customers = Customer::orderBy('customer_id','DESC')->get();
-            return response()->json($customers);
+        $customers = Customer::orderBy('customer_id','DESC')->get();
+        return response()->json($customers);
     }
 
     /**
@@ -86,7 +135,7 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-          // if ($request->ajax()) {
+        // if ($request->ajax()) {
             $customer = Customer::find($id);
             $customer = $customer->update($request->all());
              return response()->json($customer);
