@@ -10,9 +10,9 @@
         }
     </style> --}}
 
-
+<!-- 
     {{-- <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#customerModal">Add<span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-    <button type="button" class="btn btn-info btn-lg" id="customerbtn">Customer<span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button> --}}
+    <button type="button" class="btn btn-info btn-lg" id="customerbtn">Customer<span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button> --}} -->
     
     <div class="table-responsive">
         <table id="ctable" class="table table-striped table-hover">
@@ -20,8 +20,8 @@
                 <tr>
                     <th>Customer ID</th>
                     <th>User ID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
+                    <th>FirstName</th>
+                    <th>LastName</th>
                     <th>Address</th>
                     <th>Town</th>
                     <th>Zipcode</th>
@@ -50,7 +50,7 @@
             <div class="modal-body">
                 <form id="cform" method ="post" action="#" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="fname" class="control-label"><i class="fa-regular fa-note-sticky"></i> fname</label>
+                        <label for="cfname" class="control-label"><i class="fa-regular fa-note-sticky"></i> fname</label>
                         <input type="text" class="form-control" id="cfname" name="fname" placeholder="fname">
                     </div>
                     <div class="form-group">
@@ -59,34 +59,34 @@
                     </div>
             
                     <div class="form-group">
-                        <label for="addressline" class="control-label"><i class="fa-regular fa-note-sticky"></i> addressline</label>
+                        <label for="caddressline" class="control-label"><i class="fa-regular fa-note-sticky"></i> addressline</label>
                         <input type="text" class="form-control " id="caddressline" name="addressline" placeholder="addressline">
                     </div>
                     <div class="form-group">
-                        <label for="town" class="control-label"><i class="fa-regular fa-note-sticky"></i> town</label>
+                        <label for="ctown" class="control-label"><i class="fa-regular fa-note-sticky"></i> town</label>
                         <input type="text" class="form-control " id="ctown" name="town" placeholder="town">
                     </div>
                     <div class="form-group">
-                        <label for="zipcode" class="control-label"><i class="fa-regular fa-note-sticky"></i> zipcode</label>
+                        <label for="czipcode" class="control-label"><i class="fa-regular fa-note-sticky"></i> zipcode</label>
                         <input type="text" class="form-control " id="czipcode" name="zipcode" placeholder="zipcode">
                     </div>
                     <div class="form-group">
-                        <label for="phone" class="control-label"><i class="fa-regular fa-note-sticky"></i> phone</label>
+                        <label for="cphone" class="control-label"><i class="fa-regular fa-note-sticky"></i> phone</label>
                         <input type="text" class="form-control " id="cphone" name="phone" placeholder="phone">
                     </div>
 
                     <div class="form-group">
-                            <label for="eemail" class="control-label">Email</label>
-                            <input type="email" class="form-control" id="eemail" name="email" placeholder="example123@email.com">
+                            <label for="cemail" class="control-label">Email</label>
+                            <input type="email" class="form-control" id="cemail" name="email" placeholder="example123@email.com">
                         </div>
                         <div class="form-group">
-                            <label for="epassword" class="control-label">Password</label>
-                            <input type="password" class="form-control" id="epassword" name="password">
+                            <label for="cpassword" class="control-label">Password</label>
+                            <input type="password" class="form-control" id="cpassword" name="password">
                         </div>
                     
                     <div class="form-group">
-                        <label for="imagePath" class="control-label"><i class="fa-regular fa-image"></i> Image</label>
-                        <input type="file" class="form-control" id="imagePath" name="uploads">
+                        <label for="cimagePath" class="control-label"><i class="fa-regular fa-image"></i> Image</label>
+                        <input type="file" class="form-control" id="cimagePath" name="uploads">
                     </div>
                 </form>
             </div>
@@ -108,38 +108,46 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form id="ayform" method ="PUT" action="#" enctype="multipart/form-data">
+            <form id="ayform" method ="POST" action="#" enctype="multipart/form-data">
                 <input type="hidden">
                 <div class="form-group">
-                        <label for="fname" class="control-label"><i class="fa-regular fa-note-sticky"></i> fname</label>
-                        <input type="text" class="form-control" id="cfname" name="fname" placeholder="fname">
+                        <label for="eecustomer_id" class="control-label"><i class="fa-regular fa-note-sticky"></i> Customer id</label>
+                        <input type="text" class="form-control" id="eecustomer_id" name="customer_id" placeholder="customer_id">
+                    </div>
+                    <!-- <div class="form-group">
+                        <label for="cuser_id" class="control-label"><i class="fa-regular fa-note-sticky"></i>User id</label>
+                        <input type="text" class="form-control" id="cuser_id" name="user_id" placeholder="user_id">
+                    </div> -->
+                <div class="form-group">
+                        <label for="eefname" class="control-label"><i class="fa-regular fa-note-sticky"></i> first name</label>
+                        <input type="text" class="form-control" id="eefname" name="fname" placeholder="fname">
                     </div>
                     <div class="form-group">
-                        <label for="lname" class="control-label"><i class="fa-regular fa-note-sticky"></i> lname</label>
-                        <input type="text" class="form-control" id="clname" name="lname" placeholder="lname">
+                        <label for="eelname" class="control-label"><i class="fa-regular fa-note-sticky"></i> last name</label>
+                        <input type="text" class="form-control" id="eelname" name="lname" placeholder="lname">
                     </div>
                     
                     <div class="form-group">
-                        <label for="addressline" class="control-label"><i class="fa-regular fa-note-sticky"></i> addressline</label>
-                        <input type="text" class="form-control " id="caddressline" name="addressline" placeholder="addressline">
+                        <label for="eeaddressline" class="control-label"><i class="fa-regular fa-note-sticky"></i> addressline</label>
+                        <input type="text" class="form-control " id="eeaddressline" name="addressline" placeholder="addressline">
                     </div>
                     <div class="form-group">
-                        <label for="town" class="control-label"><i class="fa-regular fa-note-sticky"></i> town</label>
-                        <input type="text" class="form-control " id="ctown" name="town" placeholder="town">
+                        <label for="eetown" class="control-label"><i class="fa-regular fa-note-sticky"></i> town</label>
+                        <input type="text" class="form-control " id="eetown" name="town" placeholder="town">
                     </div>
                     <div class="form-group">
-                        <label for="zipcode" class="control-label"><i class="fa-regular fa-note-sticky"></i> zipcode</label>
-                        <input type="text" class="form-control " id="czipcode" name="zipcode" placeholder="zipcode">
+                        <label for="eezipcode" class="control-label"><i class="fa-regular fa-note-sticky"></i> zipcode</label>
+                        <input type="text" class="form-control " id="eezipcode" name="zipcode" placeholder="zipcode">
                     </div>
                     <div class="form-group">
-                        <label for="phone" class="control-label"><i class="fa-regular fa-note-sticky"></i> phone</label>
-                        <input type="text" class="form-control " id="cphone" name="phone" placeholder="phone">
+                        <label for="eephone" class="control-label"><i class="fa-regular fa-note-sticky"></i> phone</label>
+                        <input type="text" class="form-control " id="eephone" name="phone" placeholder="phone">
                     </div>
                     
                 <div class="form-group"> 
                     
-                    <label for="imagePath" class="control-label"><i class="fa-regular fa-image"></i> Image</label>
-                    <input type="file" class="form-control" id="imagePath" name="uploads" >
+                    <label for="eeimagePath" class="control-label"><i class="fa-regular fa-image"></i> Image</label>
+                    <input type="file" class="form-control" id="eeimagePath" name="uploads" >
                 </div>
             </form>
         </div>

@@ -57,9 +57,6 @@ class CustomerController extends Controller
     //     $customer = Customer::create($request->all());
     //     return response()->json($customer);
 
-
-
-
     $validator = \Validator::make($request->all(), [
         'email' => 'email| required| unique:users',
         'password' => 'required| min:3'
@@ -108,7 +105,7 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function show(Customer $customer)
+    public function show(Customer $id)
     {
         $customers = Customer::orderBy('customer_id','DESC')->get();
         return response()->json($customers);
@@ -120,7 +117,7 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Customer $customer)
+    public function edit( $id)
     {
         $customer = Customer::find($id);
         return response()->json($customer);
@@ -133,11 +130,23 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Customer $customer)
+    public function update(Request $request, $id)
     {
         // if ($request->ajax()) {
             $customer = Customer::find($id);
-            $customer = $customer->update($request->all());
+            $customer->fname = $request->fname;
+            $customer->lname = $request->lname;
+            $customer->addressline = $request->addressline;
+            $customer->town = $request->town;
+            $customer->zipcode = $request->zipcode;
+            $customer->phone = $request->phone;
+            $files = $request->file('uploads');
+            $customer->imagePath = 'images/'.$files->getClientsOriginalName();
+            $customer->update();
+            Storage::put('/public/images/'.$file->getClientsOriginalName(), file_get_contents($files));
+
+
+            // $customer = $customer->update($request->all());
              return response()->json($customer);
             // }
     }

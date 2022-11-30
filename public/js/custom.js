@@ -150,8 +150,8 @@ $(document).ready(function () {
         
     })//end datatables
 
-    $("#customerSubmit").on("click", function (e) {
-        e.preventDefault();
+    $("#customerSubmit").on("click", function (c) {
+        c.preventDefault();
         // var data = $("#iform").serialize();
         var data = $('#cform')[0];
         console.log(data);
@@ -185,8 +185,11 @@ $(document).ready(function () {
         })
     });
 
-    $("#ctable tbody").on("click", "a.editBtn", function (e) {
-        e.preventDefault();
+
+    
+
+    $("#ctable tbody").on("click", "a.editBtn", function (c) {
+        c.preventDefault();
         var id = $(this).data('id');
         $('#editcustomerModal').modal('show');
 
@@ -200,14 +203,15 @@ $(document).ready(function () {
             dataType: "json",
             success: function(data){
                    console.log(data);
-                   $("#customer_id").val(data.customer_id);
-                   $("#cfname").val(data.fname);
-                   $("#clname").val(data.lname);
-                   $("#caddressline").val(data.addressline);
-                   $("#ctown").val(data.town);
-                   $("#czipcode").val(data.zipcode);
-                   $("#cphone").val(data.phone);
-                   $("#cimagePath").val(data.imagePath);
+                   $("#eecustomer_id").val(data.customer_id);
+                //    $("#cuser_id").val(data.user_id);
+                   $("#eefname").val(data.fname);
+                   $("#eelname").val(data.lname);
+                   $("#eeaddressline").val(data.addressline);
+                   $("#eetown").val(data.town);
+                   $("#eezipcode").val(data.zipcode);
+                   $("#eephone").val(data.phone);
+                   $("#eeimagePath").val(data.imagePath);
                 },
                 error: function(){
                     console.log('AJAX load did not work');
@@ -216,9 +220,9 @@ $(document).ready(function () {
             });
         });//end edit fetch
         
-        $("#updatebtncustomer").on('click', function(e) {
-            e.preventDefault();
-            var id = $('#customer_id').val();
+        $("#updatebtncustomer").on('click', function(c) {
+            c.preventDefault();
+            var id = $('#eecustomer_id').val();
             //var data = $("#updatecustomerform").serialize();
             console.log(data);
 
@@ -227,9 +231,10 @@ $(document).ready(function () {
             var data =$("#ayform").serialize();
 
             $.ajax({
-                type: "PUT",
-                url: `api/customer/${id}`,
-                data: data,
+                type: "POST",
+                url: "api/customer/update/"+ id,
+                // url: `api/update/${id}`,
+                data: formData,
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 dataType: "json",
                 success: function(data) {
@@ -245,6 +250,71 @@ $(document).ready(function () {
                 }
             });
         });//end update
+
+        // $('#editcustomerModal').on('show.bs.modal', function(e) {
+        //     var id = $(e.relatedTarget).attr('data-id');
+        //     // console.log(id);
+        //     $('<input>')
+        //     .attr({
+        //         type: 'hidden', 
+        //         id:'customer_id',
+        //         name: 'customer_id',
+        //         value: id
+        //     })
+        //     .appendTo('#updateformcustomer');
+            
+        //     $.ajax({
+        //         type: "GET",
+        //         url: "api/customer/" + id + "/edit",
+        //         success: function(data){
+        //             //  console.log(data);
+        //             $("#ccustomer_id").val(data.customer_id);
+        //                       //    $("#cuser_id").val(data.user_id);
+        //                         $("#cfname").val(data.fname);
+        //                          $("#clname").val(data.lname);
+        //                           $("#caddressline").val(data.addressline);
+        //                            $("#ctown").val(data.town);
+        //                           $("#czipcode").val(data.zipcode);
+        //                          $("#cphone").val(data.phone);
+        //                           $("#cimagePath").val(data.imagePath);
+        //             },
+        //             error: function(){
+        //                 console.log('AJAX load did not work');
+        //                 alert("error");
+        //             }
+        //         });
+        //     });
+    
+        //     $('#editcustomerModal').on('hidden.bs.modal', function (e) {
+        //         $("#updateformcustomer").trigger("reset");
+        //         $("#customer_id").remove();
+        //       });
+              
+            
+        //     $("#updatebtncustomer").on('click', function(e) {
+        //         var id = $('#customer_id').val();
+        //          var data = $("#updateformcustomer").serialize();
+        //         console.log(data);
+        //         $.ajax({
+        //             type: "PUT",
+        //             url: "api/customer/"+ id,
+        //             data: data,
+        //             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        //             dataType: "json",
+        //             success: function(data) {
+        //                 console.log(data);
+    
+        //                 $("#editcustomerModal").css('backgroundColor','hsl(143, 100%, 50%)').each(function () {
+        //                     $(this).modal("hide");
+        //                     window.location.reload();
+                      
+        //                 });
+        //             },
+        //             error: function(error) {
+        //                 console.log(error);
+        //             }
+        //         });
+        //     });v
 
         $("#ctable tbody").on("click", "a.deletebtn", function (e) {
             var table = $('#ctable').DataTable();

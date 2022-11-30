@@ -26,11 +26,15 @@ Route::resource('customer', 'CustomerController');
 // Route::resource('employee', 'EmployeeController');
 
 
-Route::view('/customer-index', 'customer.index');
+// Route::view('/customer-index', 'customer.index');
 
 
 Route::get('/customer/show/{id}',['uses' => 'CustomerController@getCustomer','as' => 'customer.getcustomer'] );
 
 Route::get('/customer/all',['uses' => 'CustomerController@getCustomerAll','as' => 'customer.getcustomerall'] );
+
+
+
+
 
 
