@@ -23,5 +23,15 @@ class Appliance extends Model
 //     public function customers() {
 //         return $this->belongsTo('App\Models\Customer', 'customer_id');
 //    }
+
+// public function customers() {
+//     return $this->belongsTo('App\Models\Customer', 'customer_id');
+// }
+
+
+// public function consulations() {
+//     return $this->hasMany('App\Models\Consulation', 'appliance_id');
+// }
+
   
 }

@@ -20,22 +20,20 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
         return View::make('employee.index');
     }
 
+    public function getEmployeeAll(Request $request){
+        // if ($request->ajax()){
+            $employees = Employee::orderBy('employee_id','DESC')->get();
+            return response()->json($employees);
+    }
+    
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-    public function getemployeeAll(Request $request){
-        // if ($request->ajax()){
-            $employees = employee::orderBy('employee_id','DESC')->get();
-            return response()->json($employees);
-         }
-
     public function create()
     {
         //
@@ -49,7 +47,6 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $validator = \Validator::make($request->all(), [
             'email' => 'email| required| unique:users',
             'password' => 'required| min:3'
@@ -75,8 +72,7 @@ class EmployeeController extends Controller
             $employee->addressline = $request->addressline; 
             $employee->town = $request->town;
             $employee->zipcode = $request->zipcode;
-            $employee->phone = $request->phone;
-            // $employee->user_id = $request->user_id;
+            $employee->phone = $request->phone;       
             
             
          
@@ -96,10 +92,9 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function show(Employee $employee)
+    public function show(Employee $id)
     {
-        //
-        $employees = employee::orderBy('employee_id','DESC')->get();
+        $employees = Employee::orderBy('employee_id','DESC')->get();
         return response()->json($employees);
     }
 
@@ -109,10 +104,9 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function edit(Employee $id)
+    public function edit($id)
     {
-        //
-        $employee = employee::find($id);
+        $employee = Employee::find($id);
         return response()->json($employee);
     }
 
@@ -123,26 +117,25 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Employee $id)
+    public function update(Request $request, $id)
     {
-        //
+        // if ($request->ajax()) {
+            $employee = Employee::find($id);
+            $employee->fname = $request->fname;
+            $employee->lname = $request->lname;
+            $employee->addressline = $request->addressline;
+            $employee->town = $request->town;
+            $employee->zipcode = $request->zipcode;
+            $employee->phone = $request->phone;
+            $files = $request->file('uploads');
+            $employee->imagePath = 'images/'.$files->getClientsOriginalName();
+            $employee->update();
+            Storage::put('/public/images/'.$file->getClientsOriginalName(), file_get_contents($files));
 
-        $employee = employee::find($id);
-        $employee->fname = $request->fname;
-        $employee->lname = $request->lname;
-        $employee->addressline = $request->addressline;
-        $employee->town = $request->town;
-        $employee->zipcode = $request->zipcode;
-        $employee->phone = $request->phone;
-        $files = $request->file('uploads');
-        $employee->imagePath = 'images/'.$files->getClientsOriginalName();
-        $employee->update();
-        Storage::put('/public/images/'.$file->getClientsOriginalName(), file_get_contents($files));
 
-
-        // $employee = $employee->update($request->all());
-         return response()->json($employee);
-        // }
+            // $employee = $employee->update($request->all());
+             return response()->json($employee);
+            // }
     }
 
     /**
@@ -151,10 +144,9 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Employee $id)
+    public function destroy(employee $employee)
     {
-        //
-        $employee = employee::findOrFail($id);
+        $employee = Employee::findOrFail($id);
         $employee->delete();
         // return Redirect::to('/employee')->with('success','employee deleted!');
         return response()->json(["success" => "employee deleted successfully.", "status" => 200]);

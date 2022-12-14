@@ -26,15 +26,23 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     
 // });
 
+
+Route::get('/repair/all',['uses' => 'RepairController@getCutomerAll','as' => 'repair.repair'] );
+
 Route::get('/customer/all',['uses' => 'CustomerController@getCutomerAll','as' => 'customer.customer'] );
 
 Route::get('/employee/all',['uses' => 'EmployeeController@getEmployeeAll','as' => 'employee.employee'] );
 
 Route::get('/appliance/all',['uses' => 'ApplianceController@getApplianceAll','as' => 'appliance.appliance'] );
 
+
+Route::resource('repair', 'RepairController');
 Route::resource('customer', 'CustomerController');
 Route::resource('employee', 'EmployeeController');
 Route::resource('appliance', 'ApplianceController');
+
+
+
 
 
 // Route::post('/create','CustomerController@store');
@@ -56,6 +64,16 @@ Route::put('customer/{id}/update', [CustomerController::class, 'update']);
 Route::get('/customer/show/{id}',['uses' => 'CustomerController@getCustomer','as' => 'customer.getcustomer'] );
 
 Route::get('/customer/all',['uses' => 'CustomerController@getCustomerAll','as' => 'customer.getcustomerall'] );
+
+
+// Route::view('/repair', 'repair.index');
+
+// Route::post('/repair/checkout',[
+//     'uses' => 'RpeairController@postCheckout',
+//     'as' => 'checkout'
+// ]);
+
+
 
 
 

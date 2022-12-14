@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('repairs', function (Blueprint $table) {
-            $table->increments('repair_id');
-            $table->string('type');
-            $table->string('description');
-            $table->double('price');
-            $table->string('imagePath');
+        Schema::create('orders', function (Blueprint $table) {
+         
+            $table->increments('order_id');
+            $table->string('dateplaced');
+            $table->string('date_fixed');
+            $table->string('status');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('repairs');
+        Schema::dropIfExists('orders');
     }
 };
