@@ -137,7 +137,7 @@ $(document).ready(function () {
             },
             {data: null,
                 render: function (data, type, row) {
-                    return "<a href='#' class='deletebtn' data-id=" + data.customer_id + "><i class='fa-sharp fa-solid fa-trash' style='font-size:40px; color:red'></a></i>";
+                    return "<a href='#' class='deletebtn' data-id=" + data.customer_id + "><i class='fa-solid fa-trash' style='font-size:40px; color:red'></a></i>";
                 },
             },
 
@@ -204,14 +204,13 @@ $(document).ready(function () {
             success: function(data){
                    console.log(data);
                    $("#eecustomer_id").val(data.customer_id);
-                //    $("#cuser_id").val(data.user_id);
                    $("#eefname").val(data.fname);
                    $("#eelname").val(data.lname);
                    $("#eeaddressline").val(data.addressline);
                    $("#eetown").val(data.town);
                    $("#eezipcode").val(data.zipcode);
                    $("#eephone").val(data.phone);
-                   $("#eeimagePath").val(data.imagePath);
+                //    $("#eeimagePath").val(data.imagePath);
                 },
                 error: function(){
                     console.log('AJAX load did not work');
@@ -219,11 +218,14 @@ $(document).ready(function () {
                 }
             });
         });//end edit fetch
-        
+
+
+
+         
         $("#updatebtncustomer").on('click', function(c) {
             c.preventDefault();
             var id = $('#eecustomer_id').val();
-            //var data = $("#updatecustomerform").serialize();
+            //var data = $("#updateItemform").serialize();
             console.log(data);
 
             var table =$('#ctable').DataTable();
@@ -231,18 +233,18 @@ $(document).ready(function () {
             var data =$("#ayform").serialize();
 
             $.ajax({
-                type: "POST",
-                url: "api/customer/update/"+ id,
-                // url: `api/update/${id}`,
-                data: formData,
+                type: "PUT",
+                // url: "api/item/"+ id,
+                url: `api/item/${id}`,
+                data: data,
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 dataType: "json",
                 success: function(data) {
                     console.log(data);
-                    // $('#editcustomerModal').each(function(){
+                    // $('#editItemModal').each(function(){
                     //         $(this).modal('hide'); });
 
-                    $('#editcustomerModal').modal("hide");
+                    $('#editItemModal').modal("hide");
                     table.row(cRow).data(data).invalidate().draw(false);
                 },
                 error: function(error) {
@@ -314,15 +316,15 @@ $(document).ready(function () {
         //                 console.log(error);
         //             }
         //         });
-        //     });v
-
-        $("#ctable tbody").on("click", "a.deletebtn", function (e) {
+        //     });
+        
+        $("#ctable tbody").on("click", "a.deletebtn", function (c) {
             var table = $('#ctable').DataTable();
             var id = $(this).data('id');
             var $row = $(this).closest('tr');
             console.log(id);
     
-            e.preventDefault();
+            c.preventDefault();
             bootbox.confirm({
                 message: "Do you want to delete this customer",
                 buttons: {

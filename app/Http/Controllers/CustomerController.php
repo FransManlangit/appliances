@@ -3,13 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
-// use Illuminate\Http\Request;
-// use View;
-// use Storage;
-// use DB;
-// use Log;
-
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+// use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use View;
 use Storage;
@@ -133,16 +129,16 @@ class CustomerController extends Controller
     public function update(Request $request, $id)
     {
         // if ($request->ajax()) {
-            $customer = Customer::find($id);
-            $customer->fname = $request->fname;
-            $customer->lname = $request->lname;
-            $customer->addressline = $request->addressline;
-            $customer->town = $request->town;
-            $customer->zipcode = $request->zipcode;
-            $customer->phone = $request->phone;
+            $customers = Customer::find($id);
+            $customers->fname = $request->eefname;
+            $customers->lname = $request->eelname;
+            $customers->addressline = $request->eeaddressline;
+            $customers->town = $request->eetown;
+            $customers->zipcode = $request->eezipcode;
+            $customers->phone = $request->eephone;
             $files = $request->file('uploads');
-            $customer->imagePath = 'images/'.$files->getClientsOriginalName();
-            $customer->update();
+            $customers->imagePath = 'images/'.$files->getClientsOriginalName();
+            $customers->update();
             Storage::put('/public/images/'.$file->getClientsOriginalName(), file_get_contents($files));
 
 
@@ -157,7 +153,7 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Customer $customer)
+    public function destroy(Request $request, $id)
     {
         $customer = Customer::findOrFail($id);
         $customer->delete();

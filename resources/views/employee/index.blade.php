@@ -5,23 +5,21 @@
         .modal-dialog{
             display: flex;
             justify-content: center;
-            align-customers: center;
+            align-employees: center;
             min-height: 100vh;
         }
     </style> --}}
 
-    
-
 <!-- 
-    {{-- <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#customerModal">Add<span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
-    <button type="button" class="btn btn-info btn-lg" id="customerbtn">Customer<span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button> --}} -->
+    {{-- <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#employeeModal">Add<span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+    <button type="button" class="btn btn-info btn-lg" id="employeebtn">employee<span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button> --}} -->
     
     <div class="table-responsive">
-        <table id="ctable" class="table table-striped table-hover">
+        <table id="etable" class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th>Customer ID</th>
-                    <th>User ID</th>
+                    <th>EmployeeID</th>
+                    <th>UserID</th>
                     <th>FirstName</th>
                     <th>LastName</th>
                     <th>Address</th>
@@ -34,94 +32,93 @@
                     <th>Restore</th>
                 </tr>
             </thead>
-            <tbody id="cbody">
+            <tbody id="ebody">
             </tbody>
         </table>
     </div>
 </div>
 
-<div class="modal fade" id="customerModal" role="dialog" style="display:none ">
+<div class="modal fade" id="employeeModal" role="dialog" style="display:none ">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create New Customer</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Create New employee</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
 
             <div class="modal-body">
-                <form id="cform" method ="post" action="#" enctype="multipart/form-data">
+                <form id="eform" method ="post" action="#" enctype="multipart/form-data">
                 <meta name="csrf-token" content="{{ csrf_token() }}" />
                     <div class="form-group">
-
-                        <label for="cfname" class="control-label"><i class="fa-regular fa-note-sticky"></i> fname</label>
-                        <input type="text" class="form-control" id="cfname" name="fname" placeholder="fname">
+                        <label for="efname" class="control-label"><i class="fa-regular fa-note-sticky"></i> fname</label>
+                        <input type="text" class="form-control" id="efname" name="fname" placeholder="fname">
                     </div>
                     <div class="form-group">
-                        <label for="clname" class="control-label" ><i class="fa-solid fa-money-bill"></i> lname</label>
-                        <input type="text" class="form-control" id="clname" name="lname" placeholder="lname">
+                        <label for="elname" class="control-label" ><i class="fa-solid fa-money-bill"></i> lname</label>
+                        <input type="text" class="form-control" id="elname" name="lname" placeholder="lname">
                     </div>
             
                     <div class="form-group">
-                        <label for="caddressline" class="control-label"><i class="fa-regular fa-note-sticky"></i> addressline</label>
-                        <input type="text" class="form-control " id="caddressline" name="addressline" placeholder="addressline">
+                        <label for="eaddressline" class="control-label"><i class="fa-regular fa-note-sticky"></i> addressline</label>
+                        <input type="text" class="form-control " id="eaddressline" name="addressline" placeholder="addressline">
                     </div>
                     <div class="form-group">
-                        <label for="ctown" class="control-label"><i class="fa-regular fa-note-sticky"></i> town</label>
-                        <input type="text" class="form-control " id="ctown" name="town" placeholder="town">
+                        <label for="etown" class="control-label"><i class="fa-regular fa-note-sticky"></i> town</label>
+                        <input type="text" class="form-control " id="etown" name="town" placeholder="town">
                     </div>
                     <div class="form-group">
-                        <label for="czipcode" class="control-label"><i class="fa-regular fa-note-sticky"></i> zipcode</label>
-                        <input type="text" class="form-control " id="czipcode" name="zipcode" placeholder="zipcode">
+                        <label for="ezipcode" class="control-label"><i class="fa-regular fa-note-sticky"></i> zipcode</label>
+                        <input type="text" class="form-control " id="ezipcode" name="zipcode" placeholder="zipcode">
                     </div>
                     <div class="form-group">
-                        <label for="cphone" class="control-label"><i class="fa-regular fa-note-sticky"></i> phone</label>
-                        <input type="text" class="form-control " id="cphone" name="phone" placeholder="phone">
+                        <label for="ephone" class="control-label"><i class="fa-regular fa-note-sticky"></i> phone</label>
+                        <input type="text" class="form-control " id="ephone" name="phone" placeholder="phone">
                     </div>
 
                     <div class="form-group">
-                            <label for="cemail" class="control-label">Email</label>
-                            <input type="email" class="form-control" id="cemail" name="email" placeholder="example123@email.com">
+                            <label for="Eemail" class="control-label">Email</label>
+                            <input type="email" class="form-control" id="Eemail" name="email" placeholder="example123@email.com">
                         </div>
                         <div class="form-group">
-                            <label for="cpassword" class="control-label">Password</label>
-                            <input type="password" class="form-control" id="cpassword" name="password">
+                            <label for="epassword" class="control-label">Password</label>
+                            <input type="password" class="form-control" id="epassword" name="password">
                         </div>
                     
                     <div class="form-group">
-                        <label for="cimagePath" class="control-label"><i class="fa-regular fa-image"></i> Image</label>
-                        <input type="file" class="form-control" id="cimagePath" name="uploads">
+                        <label for="eimagePath" class="control-label"><i class="fa-regular fa-image"></i> Image</label>
+                        <input type="file" class="form-control" id="eimagePath" name="uploads">
                     </div>
                 </form>
             </div>
             
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-bs-dismiss="modal"><i class="fa-sharp fa-solid fa-circle-xmark"></i> Close</button>
-                <button id="customerSubmit" type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+                <button id="employeeSubmit" type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save</button>
             </div>
         </div>
     </div>
 </div>
 
 
-<div class="modal fade" id="editcustomerModal" role="dialog" style="display:none">
+<div class="modal fade" id="editemployeeModal" role="dialog" style="display:none">
 <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Edit Customer</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Edit employee</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form id="ayform" method ="POST" action="#" enctype="multipart/form-data">
+            <form id="ayform" method =" put" action="#" enctype="multipart/form-data">
                 <input type="hidden">
                 <div class="form-group">
-                        <label for="eecustomer_id" class="control-label"><i class="fa-regular fa-note-sticky"></i> Customer id</label>
-                        <input type="text" class="form-control" id="eecustomer_id" name="eecustomer_id" placeholder="eecustomer_id">
+                        <label for="eeemployee_id" class="control-label"><i class="fa-regular fa-note-sticky"></i> employee id</label>
+                        <input type="text" class="form-control" id="eeemployee_id" name="employee_id" placeholder="employee_id">
                     </div>
-                     <!-- <div class="form-group"> 
+                    <!-- <div class="form-group">
                         <label for="cuser_id" class="control-label"><i class="fa-regular fa-note-sticky"></i>User id</label>
                         <input type="text" class="form-control" id="cuser_id" name="user_id" placeholder="user_id">
-                    </div> --> 
+                    </div> -->
                 <div class="form-group">
                         <label for="eefname" class="control-label"><i class="fa-regular fa-note-sticky"></i> first name</label>
                         <input type="text" class="form-control" id="eefname" name="fname" placeholder="fname">
@@ -158,10 +155,9 @@
         <div class="modal-footer">
             
             <button type="button" class="btn btn-default" data-bs-dismiss="modal"><i class="fa-sharp fa-solid fa-circle-xmark"></i> Close</button>
-            <button id="updatebtncustomer" type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Update</button>
+            <button id="updatebtnemployee" type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Update</button>
         </div>
     </div>
 </div>
-
 </div>
 @endsection

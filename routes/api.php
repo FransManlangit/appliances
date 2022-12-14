@@ -21,9 +21,33 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
    
 });
 
+
+// Route::middleware('auth:sanctum')->get('/user', function () {
+    
+// });
+
 Route::get('/customer/all',['uses' => 'CustomerController@getCutomerAll','as' => 'customer.customer'] );
+
+Route::get('/employee/all',['uses' => 'EmployeeController@getEmployeeAll','as' => 'employee.employee'] );
+
+Route::get('/appliance/all',['uses' => 'ApplianceController@getApplianceAll','as' => 'appliance.appliance'] );
+
 Route::resource('customer', 'CustomerController');
-// Route::resource('employee', 'EmployeeController');
+Route::resource('employee', 'EmployeeController');
+Route::resource('appliance', 'ApplianceController');
+
+
+// Route::post('/create','CustomerController@store');
+// Route::resource('customer', 'CustomerController');
+// Route::get('/customer/{id}/delete', 'CustomerController@destroy');
+// Route::put('/edit','CustomerController@update');
+// Route::get('/customer/{id}/edit', 'CustomerController@edit');
+// Route::put('/edit','CustomerController@update');
+Route::get('/customer/{id}/edit', 'CustomerController@edit');
+
+
+Route::put('customer/{id}/update', [CustomerController::class, 'update']);
+
 
 
 // Route::view('/customer-index', 'customer.index');

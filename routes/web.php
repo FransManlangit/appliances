@@ -20,3 +20,9 @@ Route::get('/', function () {
 });
 Route::resource('/customer', 'CustomerController');
 Route::view('/customer', 'customer.index');
+
+Route::resource('/employee', 'EmployeeController');
+Route::view('/employee', 'employee.index');
+
+Route::resource('/appliance', 'ApplianceController');
+Route::view('/appliance', 'appliance.index');
