@@ -67,6 +67,7 @@ crossorigin="anonymous">
 <script src="js/appliance.js"></script>
 <script src="js/custom.js"></script>
 <script src="js/employee.js"></script>
+<script src="js/signout.js"></script>
 
 
 

@@ -1,8 +1,8 @@
 $(document).ready(function () {
-    $('#rtable').DataTable({
+    $('#rptable').DataTable({
         ajax:{
             url:"/api/repair/all",
-            // url:"http://localhost:5000/api/v1/appliances",
+            // url:"http://localhost:5000/api/v1/repairs",
             dataSrc: ""
         },
         dom:'Bfrtip',
@@ -12,8 +12,8 @@ $(document).ready(function () {
             {
                 text:'Add repair',
                 className: 'btn btn-primary',
-                action: function(r, dt, node, config){
-                    $("#rform").trigger("reset");
+                action: function(rp, dt, node, config){
+                    $("#rpform").trigger("reset");
                     $('#repairModal').modal('show');
                 }
             }
@@ -23,7 +23,8 @@ $(document).ready(function () {
             {data: 'type'},
             {data: 'description'},
             {data: 'price'},
-            
+       
+          
             {data: null,
                 render: function (data,type,JsonResultRow,row) {
                     return '<img src="/storage/' + JsonResultRow.imagePath + '" width="80px" height="80px">';
@@ -58,10 +59,10 @@ $(document).ready(function () {
         
     })//end datatables
 
-    $("#repairSubmit").on("click", function (r) {
-        r.preventDefault();
+    $("#repairSubmit").on("click", function (rp) {
+        rp.preventDefault();
         // var data = $("#iform").serialize();
-        var data = $('#rform')[0];
+        var data = $('#rpform')[0];
         console.log(data);
         let formData = new FormData(data);
 
@@ -83,8 +84,8 @@ $(document).ready(function () {
                    console.log(data);
                    $("#repairModal").modal("hide");
 
-                   var $rtable = $('#rtable').DataTable();
-                   $rtable.row.add(data.repair).draw(false); 
+                   var $rptable = $('#rptable').DataTable();
+                   $rptable.row.add(data.repair).draw(false); 
             },
 
             error:function (error){
@@ -92,6 +93,7 @@ $(document).ready(function () {
             }
         })
     });
+
 
 
 }); //Document.ready end

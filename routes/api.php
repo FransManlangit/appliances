@@ -21,13 +21,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
    
 });
 
+Route::group(['middleware' => ['auth:sanctum']], function () {
 
-// Route::middleware('auth:sanctum')->get('/user', function () {
-    
-// });
-
-
-Route::get('/repair/all',['uses' => 'RepairController@getCutomerAll','as' => 'repair.repair'] );
+Route::get('/repair/all',['uses' => 'RepairController@getRepairAll','as' => 'repair.repair'] );
 
 Route::get('/customer/all',['uses' => 'CustomerController@getCutomerAll','as' => 'customer.customer'] );
 
@@ -41,8 +37,37 @@ Route::resource('customer', 'CustomerController');
 Route::resource('employee', 'EmployeeController');
 Route::resource('appliance', 'ApplianceController');
 
+Route::get('/customer/{id}/edit', 'CustomerController@edit');
 
 
+Route::put('customer/{id}/update', [CustomerController::class, 'update']);
+
+Route::get('/customer/show/{id}',['uses' => 'CustomerController@getCustomer','as' => 'customer.getcustomer'] );
+
+Route::get('/customer/all',['uses' => 'CustomerController@getCustomerAll','as' => 'customer.getcustomerall'] );
+
+
+});
+
+Route::group(['middleware' => 'guest'], function() {
+    Route::resource('customer', 'CustomerController')->only(['store']);
+    Route::resource('employee', 'EmployeeController')->only(['store']);
+  });
+
+  Route::post('signin', [
+    'uses' => 'LoginController@postSignin',
+    'as' => 'user.signin',
+]);
+
+Route::get('logout',[
+  'uses' => 'LoginController@logout',
+  'as' => 'login.logout',
+]);
+
+
+// Route::middleware('auth:sanctum')->get('/user', function () {
+    
+// });
 
 
 // Route::post('/create','CustomerController@store');
@@ -51,19 +76,10 @@ Route::resource('appliance', 'ApplianceController');
 // Route::put('/edit','CustomerController@update');
 // Route::get('/customer/{id}/edit', 'CustomerController@edit');
 // Route::put('/edit','CustomerController@update');
-Route::get('/customer/{id}/edit', 'CustomerController@edit');
-
-
-Route::put('customer/{id}/update', [CustomerController::class, 'update']);
-
 
 
 // Route::view('/customer-index', 'customer.index');
 
-
-Route::get('/customer/show/{id}',['uses' => 'CustomerController@getCustomer','as' => 'customer.getcustomer'] );
-
-Route::get('/customer/all',['uses' => 'CustomerController@getCustomerAll','as' => 'customer.getcustomerall'] );
 
 
 // Route::view('/repair', 'repair.index');

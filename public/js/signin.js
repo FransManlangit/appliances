@@ -40,3 +40,37 @@ $('.tab a').on('click', function(e) {
     $(target).fadeIn(600);
 
 });
+
+$(document).ready(function(){
+    $("#signinUser").on('click', function(e) {
+        e.preventDefault();
+
+        var data = $('#signinForm')[0];
+        var formData = new FormData(data);
+        console.log(data);
+
+        $.ajax({
+            type: "POST",
+            url: "api/signin",
+            data: formData,
+            contentType: false,
+            processData: false,
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'), },
+dataType: "json",
+            accepts: {
+                json: 'application/json'
+            },
+            success: function(data) {
+                $(location).attr('href', "home");
+},
+            error: function(error) {
+                console.log(error);
+               
+
+            }
+        });
+
+    });
+
+    
+});

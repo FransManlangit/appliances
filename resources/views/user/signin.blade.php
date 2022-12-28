@@ -15,8 +15,8 @@
   <div class="form">
       
   <div class="modal-body">
-  <form id="cform" method="post" action="#" enctype="multipart/form-data">  
-
+  <form id="signinForm" method="post" action="#" enctype="multipart/form-data">  
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
       <div class="tab-content">      
    
       </div>      
@@ -38,7 +38,7 @@
                           
             <div class="label-field">           
               <div class="modal-footer">
-                <button id="#" type="submit" class="button button-block">Login</button><br>
+                <button id="signinUser" type="submit" class="button button-block">Login</button><br>
                </div>
             </div>   
 
@@ -76,5 +76,6 @@
 
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <script  src="js/signin.js"></script>
+
 </body>
 </html>

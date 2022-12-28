@@ -1,19 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Repair;
-// use App\Models\Order;
-// use App\Models\Customer;
-// use App\Models\Appliances;
 use Illuminate\Http\Request;
-
 use View;
 use Storage;
 use File;
 use DB;
 use Log;
-
 
 class RepairController extends Controller
 {
@@ -63,8 +57,8 @@ class RepairController extends Controller
             $repair->imagePath = 'images/'.$files->getClientOriginalName();
             Storage::put('/public/images/'.$files->getClientOriginalName(),file_get_contents($files));
             $repair->save();
-            return response()->json(["success" => " Repair created successfully.","repair" => $repair ,"status" => 200]);
-    }
+            return response()->json(["success" => "repair created successfully.","repair" => $repair ,"status" => 200]);
+        }
 }
 
     /**

@@ -18,8 +18,9 @@ Route::get('/', function () {
 
    
 });
+Route::group(['middleware' => ['auth:sanctum']], function () {
 
-
+    
 Route::resource('/repair', 'RepairController');
 Route::view('/repair', 'repair.index');
 
@@ -31,13 +32,21 @@ Route::view('/employee', 'employee.index');
 
 Route::resource('/appliance', 'ApplianceController');
 Route::view('/appliance', 'appliance.index');
+});
+
+
+Route::get('signin', [
+    'uses' => 'LoginController@index',
+    'as' => 'user.signin',
+]);
 
 Route::view('/signupCustomer', 'user.signupCustomer');
 Route::view('/signupEmployee', 'user.signupEmployee');
 
-Route::view('/signin', 'user.signin');
+// Route::view('/signin', 'user.signin');
 
 Route::view('/home', 'home');
 
 
 Route::view('/shop', 'shop.index');
+
