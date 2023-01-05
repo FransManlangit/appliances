@@ -21,9 +21,14 @@ class Customer extends Model
         'phone','imagePath','user_id'
     ];
 
-    //  public function orders(){
+//     public function appliances() {
+//         return $this->belongsTo('App\Models\Appliance', 'appliance_id');
+//    }
 
-    //     return $this->hasMany('App\Models\Order','customer_id');
 
-    // }
+     public function orders(){
+
+        return $this->hasMany('App\Models\Order','customer_id');
+
+    }
 }

@@ -11,14 +11,18 @@ class Order extends Model
     protected $table = 'orderinfo';
 	protected $primaryKey = 'orderinfo_id';
 	public $timestamps = false;
-    protected $fillable = ['customer_id','date_placed','date_fixed','status'];
+    protected $fillable = ['customer_id','date_placed','date_fixed', 'status'];
 
 
-    // public function customer(){
-	// 	return $this->belongsTo('App\Models\Customer');
-	// }
+    public function customer(){
+		return $this->belongsTo('App\Models\Customer');
+	}
 
     // public function items(){
 	// 	return $this->belongsToMany(Item::class,'orderline','item_id','orderinfo_id')->withPivot('quantity');
 	// }
+
+	public function repairs(){
+		return $this->belongsToMany(Repair::class,'orderline','repair_id','orderinfo_id')->withPivot('quantity');
+	}
 }

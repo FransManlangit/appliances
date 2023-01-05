@@ -24,30 +24,68 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
 Route::get('/repair/all',['uses' => 'RepairController@getRepairAll','as' => 'repair.repair'] );
+Route::resource('repair', 'RepairController');
 
-Route::get('/customer/all',['uses' => 'CustomerController@getCutomerAll','as' => 'customer.customer'] );
+Route::get('/customer/all',['uses' => 'CustomerController@getCustomerAll','as' => 'customer.customer'] );
+Route::resource('customer', 'CustomerController');
+
 
 Route::get('/employee/all',['uses' => 'EmployeeController@getEmployeeAll','as' => 'employee.employee'] );
+Route::resource('employee', 'EmployeeController');
 
 Route::get('/appliance/all',['uses' => 'ApplianceController@getApplianceAll','as' => 'appliance.appliance'] );
-
-
-Route::resource('repair', 'RepairController');
-Route::resource('customer', 'CustomerController');
-Route::resource('employee', 'EmployeeController');
 Route::resource('appliance', 'ApplianceController');
 
+
+
+// Customer
+
+// Route::put('customer/{id}/update', [CustomerController::class, 'update']);
 Route::get('/customer/{id}/edit', 'CustomerController@edit');
 
+Route::post('/customer/update/{id}',['uses' => 'CustomerController@update','as' => 'customer.update']);
 
-Route::put('customer/{id}/update', [CustomerController::class, 'update']);
+Route::get('/restore/customer/{id}',['uses' => 'CustomerController@restore','as' => 'customer.restore']);
 
-Route::get('/customer/show/{id}',['uses' => 'CustomerController@getCustomer','as' => 'customer.getcustomer'] );
+// Route::get('/customer/show/{id}',['uses' => 'CustomerController@getCustomer','as' => 'customer.getcustomer'] );
 
-Route::get('/customer/all',['uses' => 'CustomerController@getCustomerAll','as' => 'customer.getcustomerall'] );
+// Route::get('/customer/all',['uses' => 'CustomerController@getCustomerAll','as' => 'customer.getcustomerall'] );
 
+
+// Employee
+
+Route::get('/employee/{id}/edit', 'EmployeeController@edit');
+
+Route::post('/employee/update/{id}',['uses' => 'EmployeeController@update','as' => 'employee.update']);
+
+Route::get('/restore/employee/{id}',['uses' => 'EmployeeController@restore','as' => 'employee.restore']);
+
+
+// Appliance
+
+Route::get('/applaince/{id}/edit', 'ApplianceController@edit');
+
+Route::post('/appliance/update/{id}',['uses' => 'ApplianceController@update','as' => 'appliance.update']);
+
+
+Route::get('/restore/appliance/{id}',['uses' => 'ApplianceController@restore','as' => 'appliance.restore']);
+
+
+// Repair
+
+Route::get('/repair/{id}/edit', 'RepairController@edit');
+
+Route::post('/repair/update/{id}',['uses' => 'RepairController@update','as' => 'repair.update']);
+
+Route::get('/restore/repair/{id}',['uses' => 'RepairController@restore','as' => 'repair.restore']);
 
 });
+
+
+Route::get('/getRepairs', [
+  'uses' => 'RepairController@getRepair',
+  'as' => 'getRepairs'
+  ]);
 
 Route::group(['middleware' => 'guest'], function() {
     Route::resource('customer', 'CustomerController')->only(['store']);
@@ -64,11 +102,14 @@ Route::get('logout',[
   'as' => 'login.logout',
 ]);
 
+Route::post('/repair/checkout',[
+  'uses' => 'RepairController@postCheckout',
+  'as' => 'checkout'
+]);
 
 // Route::middleware('auth:sanctum')->get('/user', function () {
     
 // });
-
 
 // Route::post('/create','CustomerController@store');
 // Route::resource('customer', 'CustomerController');
@@ -77,10 +118,7 @@ Route::get('logout',[
 // Route::get('/customer/{id}/edit', 'CustomerController@edit');
 // Route::put('/edit','CustomerController@update');
 
-
 // Route::view('/customer-index', 'customer.index');
-
-
 
 // Route::view('/repair', 'repair.index');
 

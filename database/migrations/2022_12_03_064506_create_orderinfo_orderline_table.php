@@ -17,7 +17,7 @@ return new class extends Migration
                $table->increments('orderinfo_id');
                 $table->integer('customer_id')->unsigned();
                 $table->foreign('customer_id')->references('customer_id')->on('customers');
-                $table->text('status');
+                $table->text('status')->default('Ongoing');
                 $table->timestamps();
             });
     

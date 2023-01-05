@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appliance;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use View;
 use Storage;
@@ -17,10 +18,16 @@ class ApplianceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        return View::make('appliance.index');
+        if ($request->ajax())
+        {
+            $appliances = Appliance::with(['customers'])->orderBy('id','DESC')->get();
+            return response()->json($appliances);   
+        }
+
+        $customers = Customer::select("customer_id", DB::raw("CONCAT(fname,' ',lname) AS name"))->pluck('name','customer_id');
+        return View::make('appliance.insert',compact('customers'));
     }
 
     public function getapplianceAll(Request $request){
@@ -48,46 +55,11 @@ class ApplianceController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        // $input = $request->all();
-
-        // if($file = $request->hasFile('image')) {
-            
-        //     $file = $request->file('image') ;
-        //     $fileName = $file->getClientOriginalName();
-        //     // dd($fileName);
-        //     $request->image->storeAs('images', $fileName, 'public');
-        //     $input['imagePath'] = 'images/'.$fileName;
-        //     $appliance = Appliance::create($input);
-        // }
-
-        // if (Auth::user()->role == 'appliance'){
-        //     // dd($pet);
-    
-        //    return \Redirect::to('/appliance')->with('success','Appliance Created Successfully!');
-        // }
-    
-        // $appliance = Appliance::create($request->all());
-        // //     return response()->json($appliance);
-        // if($file = $request->hasFile('uploads')) {
-        // $appliance = new appliance;
-        // $appliance->appliance_id = $appliance->id;
-        //     $appliance->model = $request->model;
-        //     $appliance->brand = $request->brand;
-        //     // $appliance->user_id = $request->user_id;
-            
-    
-        //     $files = $request->file('uploads');
-        //     $appliance->imagePath = 'images/'.$files->getClientOriginalName();
-        //     Storage::put('/public/images/'.$files->getClientOriginalName(),file_get_contents($files));
-        //     $appliance->save();
-        //     return response()->json(["success" => "appliance created successfully.","appliance" => $appliance ,"status" => 200]);
-        
-        // }
 
       if($file = $request->hasFile('uploads')) {
         $appliance = new appliance;
         $appliance->appliance_id = $appliance->id;
+        $appliance->customer_id = $request->customer_id;
         $appliance->model = $request->model;
         $appliance->brand= $request->brand;
       
@@ -119,7 +91,10 @@ class ApplianceController extends Controller
      */
     public function edit(Appliances $appliances)
     {
-        //
+        
+
+        $applaicne = Appliance::find($id);
+        return response('appliance.edit')->json($appliance);
     }
 
     /**
@@ -129,9 +104,26 @@ class ApplianceController extends Controller
      * @param  \App\Models\Appliances  $appliances
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Appliances $appliances)
+    public function update(Request $request, $id)
     {
-        //
+        // if ($request->ajax()) {
+            $appliances = Appliance::find($id);
+            $appliances->model = $request->model;
+            $appliances->brand = $request->brand;
+       
+      
+           
+
+            $files = $request->file('uploads');
+        	$appliances->imagePath = 'images/'.$files->getClientOriginalName();
+         
+            $appliances->update();
+            Storage::put('/public/images/'.$files->getClientOriginalName(), file_get_contents($files));
+
+
+            // $appliance = $appliance->update($request->all());
+             return response()->json($appliances);
+            // }
     }
 
     /**

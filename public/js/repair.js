@@ -41,7 +41,7 @@ $(document).ready(function () {
             {data: null,
                 render: function (data, type, row) {
                     return "<a href='#' class='editBtn id='editbtn' data-id=" +
-                        data.repair_id + "><i class='fa-solid fa-pen-to-square' aria-hidden='true' style='font-size:40px' ></i></a>";
+                        data.repair_id + "><i class='fa fa-pencil' aria-hidden='true' style='font-size:26px' aria-hidden='true' style='font-size:40px' ></i></a>";
                 },
             },
             {data: null,
@@ -52,7 +52,7 @@ $(document).ready(function () {
 
             {data: null,
                 render: function (data, type, row) {
-                    return "<a href='#' class='restorebtn' data-id=" + data.repair_id + "><i class='fa-solid fa-rotate-right' style='font-size:30px; color:red'></a></i>";
+                    return "<a href='#' class='restorebtn' data-id=" + data.repair_id + "><i class='fa-solid fa-rotate-right' style='font-size:30px; color:green'></a></i>";
                 },  orderable: false, searchable: false
             },
         ]
@@ -93,6 +93,179 @@ $(document).ready(function () {
             }
         })
     });
+
+    
+    $("#rptable tbody").on("click", "a.editBtn", function (rp) {
+        rp.preventDefault();
+        var id = $(this).data('id');
+        $('#editrepairModal').modal('show');
+
+
+        $.ajax({
+            type: "GET",
+            url: "api/repair/" + id + "/edit",
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            dataType: "json",
+            success: function(data){
+                   console.log(data);
+                   $("#eerepair_id").val(data.repair_id);
+                   $("#eetype").val(data.type);
+                   $("#eedescription").val(data.description);
+                   $("#eeprice").val(data.price);
+                
+                //    $("#eeimagePath").val(data.imagePath);
+                },
+                error: function(){
+                    console.log('AJAX load did not work');
+                    alert("error");
+                }
+            });
+        });//end edit fetch
+
+
+        $("#updatebtnrepair").on('click', function(rp) {
+            rp.preventDefault();
+            var id = $('#eerepair_id').val();
+            //var data = $("#updateItemform").serialize();
+            // console.log(data);
+            var data = $('#ayform')[0];
+           var formData = new FormData(data);
+
+            var table =$('#rptable').DataTable();
+            var cRow = $("tr td:contains(" + id + ")").closest('tr');
+            // var data =$("#ayform").serialize();
+            console.log(data);
+            $.ajax({
+                type: "POST",
+                // url: "api/item/"+ id,
+                // url: `api/repair/update/${id}`,
+                 url: "api/repair/update/" + id,
+                data: formData,
+                contentType: false,
+                processData: false,
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+                    // $('#editItemModal').each(function(){
+                    //         $(this).modal('hide'); });
+
+                    $('#editrepairModal').modal("hide");
+                    table.row(cRow).data(data).invalidate().draw(false);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });//end update
+
+
+        $("#rptable tbody").on("click", "a.deletebtn", function (rp) {
+            var table = $('#rptable').DataTable();
+            var id = $(this).data('id');
+            var $row = $(this).closest('tr');
+            console.log(id);
+    
+            rp.preventDefault();
+            bootbox.confirm({
+                message: "Do you want to delete this repair",
+                buttons: {
+                    confirm: {
+                        label: "Yes",
+                        className: "btn-success",
+                    },
+                    cancel: {
+                        label: "No",
+                        className: "btn-danger",
+                    },
+                },
+                callback: function (result) {
+                    if (result)
+                        $.ajax({
+                            type: "DELETE",
+                            url: "/api/repair/" + id,
+                            // url:`http://localhost:5000/api/v1/repairs/${id}`,
+                            headers: {
+                                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                                    "content"
+                                ),
+                            },
+                            dataType: "json",
+                            success: function (data) {
+                                console.log(data);
+                                // bootbox.alert('success');
+                                // $tr.find("td").fadeOut(2000, function () {
+                                //     $tr.remove();
+                                // $row.fadeOut(4000, function(){
+                                //     table.row($row).remove().draw(false)
+                                // });
+                                bootbox.alert(data.success)
+                               
+                            },
+                            error: function (error) {
+                                console.log(error);
+                            },
+                        });
+                },
+            });
+        });//DELETE
+
+        $("#rptable tbody").on("click", "a.restorebtn", function (rp) {
+            var table = $('#rptable').DataTable();
+            var id = $(this).data('id');
+            var $row = $(this).closest('tr');
+            console.log(id);
+    
+            rp.preventDefault();
+            bootbox.confirm({
+                message: "Do you want to Restore this repair",
+                buttons: {
+                    confirm: {
+                        label: "Yes",
+                        className: "btn-success",
+                    },
+                    cancel: {
+                        label: "No",
+                        className: "btn-danger",
+                    },
+                },
+                callback: function (result) {
+                    if (result)
+                        $.ajax({
+                            type: "get",
+                            url: "/api/restore/repair/" + id,
+                            // url:`http://localhost:5000/api/v1/repairs/${id}`,
+                            headers: {
+                                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                                    "content"
+                                ),
+                            },
+                            dataType: "json",
+                            success: function (data) {
+                                console.log(data);
+                                // bootbox.alert('success');
+                                // $tr.find("td").fadeOut(2000, function () {
+                                //     $tr.remove();
+                                // $row.fadeOut(4000, function(){
+                                //     table.row($row).remove().draw(false)
+                                // });
+                                bootbox.alert(data.success)
+                               
+                            },
+                            error: function (error) {
+                                console.log(error);
+                            },
+                        });
+                },
+            });
+        });//Resotore
+
+
+        
+
+        
 
 
 

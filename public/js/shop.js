@@ -1,7 +1,7 @@
-// var repairCount = 0;
-// var priceTotal = 0;
-// var quantity = 0;
-// var clone = "";
+var repairCount = 0;
+var priceTotal = 0;
+var quantity = 0;
+var clone = "";
 
 // $(document).ready(function () {
 //     $.ajax({
@@ -27,14 +27,17 @@
 $(document).ready(function () {
     $.ajax({
         type: "GET",
-        url: "/api/repair",
+        url: "/api/repair/all",
         dataType: 'json',
         success: function (data) {
             console.log(data);
             $.each(data, function (key, value) {
                 // console.log(key);
                 id = value.repair_id;
-                var repair = "<div class='repair'><div class='repairDetails'><div class='repairImage'><img src="+"/storage/" + value.imagePath + " width='200px', height='200px'/></div><div class='repairText'><p class='price-container'>Price: Php <span class='price'>" + value.sell_price + "</span></p><p>" + value.description + "</p></div><input type='number' class='qty' name='quantity' min='1' max='5'><p class='repairId'>" + value.repair_id + "</p>      </div><button type='button' class='btn btn-primary add' >Add to cart</button></div>";
+                var repair = "<div class='repair'><div class='repairDetails'><div class='repairImage'><img src="+"/storage/" + value.imagePath + 
+                " width='200px', height='200px'/></div><div class='repairText'><p class='price-container'>Price: Php <span class='price'>" + value.price + "</span></p><p>" + value.type +  
+                "</p><p>" + value.description +  "</p></div><p class='repairId' hidden>" + value.repair_id + 
+                "</p> </div><br><button type='button' class='btn btn-primary add' >Add to cart</button></div>";
                 $("#repairs").append(repair);
 
             });
@@ -50,15 +53,15 @@ $(document).ready(function () {
     $("#repair").on('click', '.add', function () {
         repairCount ++;
         $('#repairCount').text(repairCount).css('display', 'block');
-        clone =  $(this).siblings().clone().appendTo('#cartrepairs')
-                   .append('<button class="removerepair">Remove repair</button>');
+        clone =  $(this).siblings().clone().appendTo('#cartRepairs')
+                   .append('<button class="removerepairs">Remove repair</button>');
         var price = parseInt($(this).siblings().find('.price').text()); 
         priceTotal += price;
-        $('#cartTotal').text("Total: $" + priceTotal);
+        $('#cartTotal').text("Total: php " + priceTotal);
         });
     
     
-        $('#shoppingCart').on('click', '.removerepair', function(){
+        $('#shoppingCart').on('click', '.removerepairs', function(){
             $(this).parent().remove();  
             repairCount --;
             $('#repairCount').text(repairCount);
@@ -66,7 +69,7 @@ $(document).ready(function () {
             // Remove Cost of Deleted repair from Total Price
             var price = parseInt($(this).siblings().find('.price').text());
             priceTotal -= price;
-            $('#cartTotal').text("Total: php" + priceTotal);
+            $('#cartTotal').text("Total: php " + priceTotal);
       
             if (repairCount == 0) {
               $('#repairCount').css('display', 'none');
@@ -82,22 +85,22 @@ $(document).ready(function () {
         priceTotal = 0;
 
         $('#repairCount').css('display', 'none');
-        $('#cartrepairs').text('');
-        $('#cartTotal').text("Total: $", priceTotal);
+        $('#cartRepairs').text('');
+        $('#cartTotal').text("Total: php ", priceTotal);
     });
 
     $("#repairs").on('click', '.add', function () {
         repairCount ++;
         $('#repairCount').text(repairCount).css('display', 'block');
-        clone =  $(this).siblings().clone().appendTo('#cartrepairs')
-                   .append('<button class="removerepair">Remove repair</button>');
+        clone =  $(this).siblings().clone().appendTo('#cartRepairs')
+                   .append('<button class="removerepairs">Remove repair</button>');
         var price = parseInt($(this).siblings().find('.price').text()); 
         priceTotal += price;
-        $('#cartTotal').text("Total: â‚¬" + priceTotal);
+        $('#cartTotal').text("Total: php " + priceTotal);
         });
     
     
-        $('#shoppingCart').on('click', '.removerepair', function(){
+        $('#shoppingCart').on('click', '.removerepairs', function(){
             $(this).parent().remove();  
             repairCount --;
             $('#repairCount').text(repairCount);
@@ -105,7 +108,7 @@ $(document).ready(function () {
             // Remove Cost of Deleted repair from Total Price
             var price = parseInt($(this).siblings().find('.price').text());
             priceTotal -= price;
-            $('#cartTotal').text("Total: php" + priceTotal);
+            $('#cartTotal').text("Total: php " + priceTotal);
       
             if (repairCount == 0) {
               $('#repairCount').css('display', 'none');
@@ -116,8 +119,8 @@ $(document).ready(function () {
             priceTotal = 0;
       
             $('#repairCount').css('display', 'none');
-            $('#cartrepairs').text('');
-            $('#cartTotal').text("Total: $" + priceTotal);
+            $('#cartRepairs').text('');
+            $('#cartTotal').text("Total: php " + priceTotal);
           }); 
 
           
@@ -126,12 +129,13 @@ $(document).ready(function () {
             priceTotal = 0;
             let repairs = new Array();
             
-            $("#cartrepairs").find(".repairDetails").each(function (i, element) {
+            $("#cartRepairs").find(".repairDetails").each(function (i, element) {
                 // console.log(element);
                 let repairid = 0;
-                let qty = 0;
+                let qty = 1;
+                // let status = 0;
     
-                qty = parseInt($(element).find($(".qty")).val());
+                // qty = parseInt($(element).find($(".qty")).val());
                 repairid = parseInt($(element).find($(".repairId")).html());
     
                 repairs.push(
@@ -140,8 +144,11 @@ $(document).ready(function () {
                         "quantity": qty
                     }
                 );
+                
     
             });
+
+
             console.log(JSON.stringify(repairs));
             var data = JSON.stringify(repairs);
     
@@ -157,13 +164,15 @@ $(document).ready(function () {
                     console.log(data);
                     alert(data.status);
                 },
-                error: function (error) {
-                    alert(data.status);
+                error:function (error){
+                    console.log(error);
                 }
+              
+            
             });
             $('#repairCount').css('display', 'none');
-            $('#cartrepairs').text('');
-            $('#cartTotal').text("Total: â‚¬" + priceTotal);
+            $('#cartRepairs').text('');
+            $('#cartTotal').text("Total: php " + priceTotal);
     
             // console.log(clone.find(".repairDetails"));
     

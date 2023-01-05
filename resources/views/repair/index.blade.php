@@ -98,30 +98,18 @@
                         <input type="text" class="form-control" id="cuser_id" name="user_id" placeholder="user_id">
                     </div> --> 
                 <div class="form-group">
-                        <label for="eefname" class="control-label"><i class="fa-regular fa-note-sticky"></i> first name</label>
-                        <input type="text" class="form-control" id="eefname" name="fname" placeholder="fname">
+                        <label for="eetype" class="control-label"><i class="fa-regular fa-note-sticky"></i> Type</label>
+                        <input type="text" class="form-control" id="eetype" name="type" placeholder="type">
                     </div>
                     <div class="form-group">
-                        <label for="eelname" class="control-label"><i class="fa-regular fa-note-sticky"></i> last name</label>
-                        <input type="text" class="form-control" id="eelname" name="lname" placeholder="lname">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="eeaddressline" class="control-label"><i class="fa-regular fa-note-sticky"></i> addressline</label>
-                        <input type="text" class="form-control " id="eeaddressline" name="addressline" placeholder="addressline">
+                        <label for="eedescription" class="control-label"><i class="fa-regular fa-note-sticky"></i> Description</label>
+                        <input type="text" class="form-control" id="eedescription" name="description" placeholder="description">
                     </div>
                     <div class="form-group">
-                        <label for="eetown" class="control-label"><i class="fa-regular fa-note-sticky"></i> town</label>
-                        <input type="text" class="form-control " id="eetown" name="town" placeholder="town">
+                        <label for="eeprice" class="control-label"><i class="fa-regular fa-note-sticky"></i> Price </label>
+                        <input type="text" class="form-control" id="eeprice" name="price" placeholder="price">
                     </div>
-                    <div class="form-group">
-                        <label for="eezipcode" class="control-label"><i class="fa-regular fa-note-sticky"></i> zipcode</label>
-                        <input type="text" class="form-control " id="eezipcode" name="zipcode" placeholder="zipcode">
-                    </div>
-                    <div class="form-group">
-                        <label for="eephone" class="control-label"><i class="fa-regular fa-note-sticky"></i> phone</label>
-                        <input type="text" class="form-control " id="eephone" name="phone" placeholder="phone">
-                    </div>
+                  
                     
                 <div class="form-group"> 
                     

@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 use App\Models\Repair;
+use App\Models\Customer;
+use App\Models\Order;
+
 use Illuminate\Http\Request;
 use View;
 use Storage;
 use File;
 use DB;
 use Log;
+use Auth;
 
 class RepairController extends Controller
 {
@@ -26,6 +30,9 @@ class RepairController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+     
 
      public function getrepairAll(Request $request){
         // if ($request->ajax()){
@@ -51,6 +58,7 @@ class RepairController extends Controller
             $repair->type = $request->type;
             $repair->description= $request->description;
             $repair->price= $request->price;
+            // $repair->status= $request->status;
           
     
             $files = $request->file('uploads');
@@ -78,9 +86,10 @@ class RepairController extends Controller
      * @param  \App\Models\Repair  $repair
      * @return \Illuminate\Http\Response
      */
-    public function edit(Repair $repair)
+    public function edit( $id)
     {
-        //
+        $repair = Repair::find($id);
+        return response()->json($repair);
     }
 
     /**
@@ -90,10 +99,28 @@ class RepairController extends Controller
      * @param  \App\Models\Repair  $repair
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Repair $repair)
+    public function update(Request $request, $id)
     {
-        //
+        // if ($request->ajax()) {
+            $repairs = Repair::find($id);
+            $repairs->type = $request->type;
+            $repairs->description = $request->description;
+            $repairs->price = $request->price;
+      
+           
+
+            $files = $request->file('uploads');
+        	$repairs->imagePath = 'images/'.$files->getClientOriginalName();
+         
+            $repairs->update();
+            Storage::put('/public/images/'.$files->getClientOriginalName(), file_get_contents($files));
+
+
+            // $repair = $repair->update($request->all());
+             return response()->json($repairs);
+            // }
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -101,44 +128,62 @@ class RepairController extends Controller
      * @param  \App\Models\Repair  $repair
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Repair $repair)
+    public function destroy(Request $request, $id)
     {
-        //
+        $repair = Repair::findOrFail($id);
+        $repair->delete();
+        // return Redirect::to('/repair')->with('success','repair deleted!');
+        return response()->json(["success" => "repair successfully deleted.", "status" => 200]);
     }
 
-    // public function postCheckout(Request $request){
+    public function restore(Request $request, $id)
+    {
+    $repair = Repair::withTrashed()->findOrFail($id);
+    $repair->restore();
+    // return Redirect::to('/repair')->with('success','repair deleted!');
+    return response()->json(["success" => "repair successfully restored.", "status" => 200]);
+    }
 
-    //     // $items = json_decode($request->json()->all());
-    //     $items = json_decode($request->getContent(),true);
-    //     // Log::info(print_r($request->getContent()));
-    //     Log::info(print_r($items, true));
-    //       try {
-    //           DB::beginTransaction();
-    //           $order = new Order();
-    //           $repair =  repair::find(3);
-    //           // dd($cart->items);
-    //         $repair->orders()->save($order);
-    //           // dd($cart->items);
-    //         // Log::info(print_r($order->orderinfo_id, true));
-    //         foreach($items as $item) {
-    //           // Log::info(print_r($item, true));
-    //            $id = $item['item_id'];
-    //            // Log::info(print_r($, true));
-    //            $order->items()->attach($order->orderinfo_id,['quantity'=> $item['quantity'],'item_id'=>$id]);
-    //            // Log::info(print_r($order, true));
-    //            $stock = Stock::find($id);
-    //            $stock->quantity = $stock->quantity - $item['quantity'];
-    //            $stock->save();
-    //         }
+
+
+    public function postCheckout(Request $request){
+
+        // $items = json_decode($request->json()->all());
+        $repairs = json_decode($request->getContent(),true);
+        // Log::info(print_r($request->getContent()));
+        Log::info(print_r($repairs, true));
+          try {
+              DB::beginTransaction();
+              $order = new Order();
+              $id = auth::user()->customers->customer_id;
+              $customer =  Customer::find($id);
+              // dd($cart->items);
+            $customer->orders()->save($order);
+              // dd($cart->items);
+            // Log::info(print_r($order->orderinfo_id, true));
+            foreach($repairs as $repair) {
+              // Log::info(print_r($item, true));
+               $id = $repair['repair_id'];
+               // Log::info(print_r($, true));
+               $order->repairs()->attach($order->orderinfo_id,['repair_id'=>$id]);
+               // Log::info(print_r($order, true));
+            //    $stock = Stock::find($id);
+            //    $stock->quantity = $stock->quantity - $item['quantity'];
+            //    $stock->save();
+            }
             
-    //     }
-    //     catch (\Exception $e) {
-    //         DB::rollback();
-    //         return response()->json(array('status' => 'Order failed','code'=>409,'error'=>$e->getMessage()));
-    //         }
-    
-    //     DB::commit();
-    //     return response()->json(array('status' => 'Order Success','code'=>200,'order id'=>$order->orderinfo_id));
-    
-    //     }//end postcheckout
+          }
+          catch (\Exception $e) {
+              DB::rollback();
+              return response()->json(array('status' => 'Order failed','code'=>409,'error'=>$e->getMessage()));
+              }
+      
+          DB::commit();
+          return response()->json(array('status' => 'Order Success','code'=>200,'order id'=>$order->orderinfo_id));
+      
+          }//end postcheckout
+
+
+   
+
 }

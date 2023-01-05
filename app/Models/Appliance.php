@@ -17,12 +17,12 @@ class Appliance extends Model
     
 
     protected $fillable = ['model',
-        'brand'
+        'brand', 'customer_id'
     ];
 
-//     public function customers() {
-//         return $this->belongsTo('App\Models\Customer', 'customer_id');
-//    }
+    public function customers() {
+        return $this->belongsTo('App\Models\Customer', 'customer_id');
+   }
 
 // public function customers() {
 //     return $this->belongsTo('App\Models\Customer', 'customer_id');

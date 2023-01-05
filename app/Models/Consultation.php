@@ -15,7 +15,7 @@ class Consultation extends Model
     protected $guarded = ['consult_id'];
     
   
-    protected $fillable = ['appliance_id', 'employee_id','defective', 'recommendation', 'price'];
+    protected $fillable = ['appliance_id', 'employee_id','defective', 'recommendation', 'comments','price'];
 
 
     public function employees() {

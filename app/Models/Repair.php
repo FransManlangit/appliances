@@ -18,5 +18,9 @@ class Repair extends Model
     protected $fillable = ['type','description','price','imagePath'
    
 ];
+public function orders() {
+    return $this->belongToMany(Order::class,'orderline','orderinfo_id','repair_id');
+}
+
 
 }

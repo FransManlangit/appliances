@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+// use Illuminate\Support\Facades\Hash;
+
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-// use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use View;
 use Storage;
@@ -28,7 +29,7 @@ class CustomerController extends Controller
 
     public function getCustomerAll(Request $request){
         // if ($request->ajax()){
-            $customers = Customer::orderBy('customer_id','DESC')->get();
+            $customers = Customer::withTrashed()->orderBy('customer_id','DESC')->get();
             return response()->json($customers);
          }
 
@@ -130,20 +131,23 @@ class CustomerController extends Controller
     {
         // if ($request->ajax()) {
             $customers = Customer::find($id);
-            $customers->fname = $request->eefname;
-            $customers->lname = $request->eelname;
-            $customers->addressline = $request->eeaddressline;
-            $customers->town = $request->eetown;
-            $customers->zipcode = $request->eezipcode;
-            $customers->phone = $request->eephone;
+            $customers->fname = $request->fname;
+            $customers->lname = $request->lname;
+            $customers->addressline = $request->addressline;
+            $customers->town = $request->town;
+            $customers->zipcode = $request->zipcode;
+            $customers->phone = $request->phone;
+           
+
             $files = $request->file('uploads');
-            $customers->imagePath = 'images/'.$files->getClientsOriginalName();
+        	$customers->imagePath = 'images/'.$files->getClientOriginalName();
+         
             $customers->update();
-            Storage::put('/public/images/'.$file->getClientsOriginalName(), file_get_contents($files));
+            Storage::put('/public/images/'.$files->getClientOriginalName(), file_get_contents($files));
 
 
             // $customer = $customer->update($request->all());
-             return response()->json($customer);
+             return response()->json($customers);
             // }
     }
 
@@ -158,6 +162,15 @@ class CustomerController extends Controller
         $customer = Customer::findOrFail($id);
         $customer->delete();
         // return Redirect::to('/customer')->with('success','Customer deleted!');
-        return response()->json(["success" => "customer deleted successfully.", "status" => 200]);
+        return response()->json(["success" => "Customer successfully deleted.", "status" => 200]);
     }
+
+    public function restore(Request $request, $id)
+    {
+    $customer = Customer::withTrashed()->findOrFail($id);
+    $customer->restore();
+    // return Redirect::to('/customer')->with('success','Customer deleted!');
+    return response()->json(["success" => "Customer successfully restored.", "status" => 200]);
+    }
+
 }
