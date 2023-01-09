@@ -9,29 +9,32 @@
     <ul class="nav navbar-nav" >
      @if(Auth::check() and Auth::user()->role == 'admin')
       <li><a class="nav-link" href="home">Home</a></li>
-      <li><a class="nav-link" href="profile">Profile</a></li>
+      <li><a class="nav-link" href="user-profile">Profile</a></li>
       <li><a class="nav-link" href="customer">Customer</a></li>
       <li><a class="nav-link" href="employee">Employee</a></li>
-      <li><a class="nav-link" href="appliance">Appliance</a></li>
+      {{-- <li><a class="nav-link" href="appliance">Appliance</a></li> --}}
       <li><a class="nav-link" href="repair">Repair</a></li>
      @elseif(Auth::check() and Auth::user()->role == 'employee')     
       <li><a class="nav-link" href="home">Home</a></li>
-      <li><a class="nav-link" href="profile">Profile</a></li>
+      <li><a class="nav-link" href="user-profile">Profile</a></li>
+      <li><a class="nav-link" href="dashboard">Dashboard</a></li>
       <li><a class="nav-link" href="repair">Repair</a></li>
+      
       <!-- <li><a class="nav-link" href="employee">Employee</a></li> -->
       <!-- <li><a>|</a></li> --> 
      @elseif(Auth::check() and Auth::user()->role == 'customer')     
      <li><a class="nav-link" href="home">Home</a></li>
-     <li><a class="nav-link" href="profile">Profile</a></li>
+     <li><a class="nav-link" href="user-profile">Profile</a></li>
      <li><a class="nav-link" href="appliance-insert">Appliance</a></li>
-     <li><a class="nav-link" href="consultation">Consult</a></li>
+     {{-- <li><a class="nav-link" href="consultation">Consult</a></li> --}}
      <li><a class="nav-link" href="shop">Shop</a></li>
+     
      <!-- <li><a class="nav-link" href="customer">Customer</a></li> -->
       <!-- <li><a>|</a></li> -->
      @else    
      <li><a class="nav-link" href="home">Home</a></li>
       <!-- <li><a>|</a></li> -->            
-      <li><a class="nav-link" href="shop">Shop</a></li>
+      {{-- <li><a class="nav-link" href="shop">Shop</a></li> --}}
       {{-- <li><a class="nav-link"readonly>No one login</a></li> --}}
     </ul>    
     @endif

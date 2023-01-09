@@ -68,6 +68,7 @@ $(document).ready(function() {
 
     $("#applianceSubmit").on("click", function(a) {
         a.preventDefault();
+        validationForCreateAppliances.form();
         var data = $('#aform')[0];
         console.log(data);
         let formData = new FormData(data);
@@ -99,8 +100,51 @@ $(document).ready(function() {
     });
 
 
+
+    var validationForCreateAppliances =  $("#aform").validate({
+        rules: {
+           appliance_id:{required:true},
+          customer_id: { required:true},
+           model: { required:true},
+            brand:  { required:true},
+           uploads: { required:true},
+          
+    
+            },
+        messages: {
+            appliance_id:"Field is Required ",
+           customer_id: "Field is Required ",
+            model: "Comment is Required ",
+           brand: "Price is Required ",
+            uploads: "Field is Required ",
+          
+            },
+    });
+    
+    
+    // validation for update
+    var validationForUpdateAppliances =  $("#ayform").validate({
+        rules: {
+            repair_id:{required:true},
+           type: { required:true},
+           description: { required:true},
+            price: { required:true, number: true},
+           uploads: { required:true},
+            },
+
+        messages: {
+            repair_id:"Field is Required ",
+            type: "Comment is Required ",
+            description: "Price is Required ",
+            price: "Date is Required ",
+            uploads: "Field is Required ",
+            },
+    });
+
+
     $("#atable tbody").on("click", "a.editBtn", function (a) {
         a.preventDefault();
+        validationFormUpdateAppliances.form();
         var id = $(this).data('id');
         $('#editapplianceModal').modal('show');
 

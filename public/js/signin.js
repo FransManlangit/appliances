@@ -61,7 +61,7 @@ dataType: "json",
                 json: 'application/json'
             },
             success: function(data) {
-                $(location).attr('href', "home");
+                $(location).attr('href', "user-profile");
 },
             error: function(error) {
                 console.log(error);

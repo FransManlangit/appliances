@@ -20,5 +20,9 @@ class Employee extends Model
         'addressline','town','zipcode',
         'phone','imagePath','user_id'
     ];
+
+    public function users() {
+        return $this->belongsTo('App\Models\User');
+   }
   
 }

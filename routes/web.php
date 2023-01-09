@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('welcome');   
 });
 
-Route::group(['middleware' => ['auth:sanctum','role:admin']], function () {
+Route::group(['middleware' => ['auth:sanctum','role:admin,employee']], function () {
 
     Route::resource('/repair', 'RepairController');
     Route::view('/repair', 'repair.index');
@@ -29,25 +29,19 @@ Route::group(['middleware' => ['auth:sanctum','role:admin']], function () {
     Route::view('/employee', 'employee.index');
 
     Route::resource('/appliance', 'ApplianceController');
-    Route::view('/appliance', 'appliance.insert');
-
-
-    
+    Route::view('/appliance', 'appliance.index'); 
 
 });
 
 Route::group(['middleware' => ['auth:sanctum','role:customer']], function () {        
-    Route::resource('/appliance', 'ApplianceController');    
-    Route::get('/appliance-insert', ['uses' => 'ApplianceController@insIndex']);
-
-    Route::get('/consult', 'ConsultationController@index'); // wala pa    
-
    
+    Route::get('/appliance-insert', ['uses' => 'ApplianceController@index']);
+
+    Route::get('/consult', 'ConsultationController@index'); 
+    Route::resource('/appliance', 'ApplianceController');    
+   
+    Route::view('/shop', 'shop.index'); 
 });
-
-
-Route::view('/shop', 'shop.index'); 
-
 
 Route::get('signin', [
     'uses' => 'LoginController@index',
@@ -60,8 +54,19 @@ Route::view('/signupEmployee', 'user.signupEmployee');
 // Route::view('/signin', 'user.signin');
 
 Route::view('/home', 'home');
+Route::view('/user-profile', 'user.profile');
+Route::view('/dashboard','dashboard.index');
 
 // Route::view('/consult', 'consultation.consult');
 Route::get('/consult', 'ConsultationController@consult');
 
-Route::get('/appliance-insert', ['uses' => 'ApplianceController@index']);
+
+Route::get('/dashboard/title-chart',[
+    'uses' => 'DashboardController@titleChart',
+    'as' => 'dashboard.titleChart'
+  ]);
+  
+  Route::get('/dashboard/SalesChart',[
+    'uses' => 'DashboardController@SalesChart',
+    'as' => 'dashboard.SalesChart'
+  ]);

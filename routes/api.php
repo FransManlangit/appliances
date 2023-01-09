@@ -128,9 +128,14 @@ Route::post('/repair/checkout',[
 // ]);
 
 
+Route::get('/dashboard/title-chart',[
+  'uses' => 'DashboardController@titleChart',
+  'as' => 'dashboard.titleChart'
+]);
 
-
-
-
+Route::get('/dashboard/SalesChart',[
+  'uses' => 'DashboardController@SalesChart',
+  'as' => 'dashboard.SalesChart'
+]);
 
 
